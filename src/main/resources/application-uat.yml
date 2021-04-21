@@ -1,0 +1,9 @@
+server:
+  port: 8084
+  servlet:
+    session:
+      timeout: 30m
+spring:
+  application:
+    name: "spring_test"
+  result: "test"
