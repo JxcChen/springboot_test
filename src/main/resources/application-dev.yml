@@ -6,4 +6,21 @@ server:
 spring:
   application:
     name: "spring_test"
+  datasource:
+    # allowMultiQueries 是否允许批量查询
+    url: jdbc:mysql://159.75.6.218:3000/spring_test?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
   result: "test"
+mybatis:
+  mapper-locations: classpath:mapper/*.xml # 增删改查语句路径
+  type-aliases-package: com.example.demo.entity # 实体类路径
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+logging:
+  level:
+    com.example.demo.dao: debug # 打印sql日志
+
+

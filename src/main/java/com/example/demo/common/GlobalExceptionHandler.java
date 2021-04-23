@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     // @ExceptionHandler({ServiceException.class}) 指定只捕获业务异常
     @ExceptionHandler({ServiceException.class}) // 对异常进行统一处理 value指定捕获的异常类型
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    public String serviceExceptionHandler(ServiceException ex){
+    public ResultDto serviceExceptionHandler(ServiceException ex){
         log.error(ex.getMessage());
         return resultFormat(ex);
     }
@@ -31,30 +31,28 @@ public class GlobalExceptionHandler {
     // @ExceptionHandler({ServiceException.class})捕获非业务异常 ，业务异常继承了Exception，但是会先子后父进行捕获
     @ExceptionHandler({Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String exception(Exception ex){
+    public ResultDto exception(Exception ex){
         log.error(ex.getMessage());
         return resultFormat(ex);
     }
     // 系统错误
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String  exception(Throwable throwable){
+    public ResultDto  exception(Throwable throwable){
         log.error("服务器异常"+ throwable);
         return resultFormat(throwable);
     }
 
-    private <T extends Throwable> String resultFormat(T ex){
+    private <T extends Throwable> ResultDto resultFormat(T ex){
         log.error(ex.getMessage());
-//        ResultDto resultDto = ResultDto.newInstance();
-//        ResultDto.setAsFailure();
+        ResultDto resultDto = ResultDto.newInstance();
+        resultDto.setAsFail();
         if(ex instanceof  ServiceException){
-//            ServiceException serviceException = (ServiceException)ex;
-//            resultDto.setMessage(serviceException.getMessage());
-            return "业务异常";
+            ServiceException serviceException = (ServiceException)ex;
+            resultDto.setResultMsg(serviceException.getMessage());
         }else if (ex instanceof Exception){
-//            resultDto.setMessage("服务器不可用" + ex.getMessage());
-            return "非业务异常";
+            resultDto.setResultMsg("服务器不可用" + ex.getMessage());
         }
-        return "系统错误";
+        return resultDto;
     }
 }
