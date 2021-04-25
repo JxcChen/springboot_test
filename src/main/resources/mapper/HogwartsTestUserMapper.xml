@@ -24,4 +24,19 @@
       user_name like concat('%',#{userName},'%')
     </if>
   </select>
+
+  <!-- 统计数量 -->
+  <select id="getCount" resultType="int">
+    select count(*) from hogwarts_test_user;
+  </select>
+
+  <!-- 通过用户名准确查询用户 非模糊匹配 -->
+  <select id="selectOneByUserName" resultType="HogwartsTestUser">
+    SELECT * FROM hogwarts_test_user
+      WHERE
+    <if test="userName != null and userName != ''">
+      user_name = #{userName}
+    </if>
+  </select>
+
 </mapper>

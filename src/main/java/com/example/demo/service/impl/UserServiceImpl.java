@@ -2,8 +2,10 @@ package com.example.demo.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.common.ResultDto;
+import com.example.demo.common.ServiceException;
 import com.example.demo.dao.HogwartsTestUserMapper;
 import com.example.demo.dto.AddUserDto;
+import com.example.demo.dto.LoginUserDto;
 import com.example.demo.dto.UpdateUserDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.entity.HogwartsTestUser;
@@ -38,6 +40,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResultDto<HogwartsTestUser> login(LoginUserDto loginUserDto) {
+        String password;
+        try {
+            password = hogwartsTestUserMapper.selectOneByUserName(loginUserDto.getUserName()).getPassword();
+        }catch (Exception e){
+            return ResultDto.fail("该用户未注册");
+        }
+        if(password.equals(loginUserDto.getPassword()))
+            return ResultDto.success("登录成功",hogwartsTestUserMapper.selectOneByUserName(loginUserDto.getUserName()));
+        else
+            return ResultDto.fail("用户名或密码错误");
+    }
+
+    @Override
     public ResultDto<AddUserDto> save(AddUserDto addUserDto) {
         // 将传入的dto类 信息复制给实体类
         BeanUtils.copyProperties(addUserDto, hogwartsTestUser);
@@ -62,4 +78,11 @@ public class UserServiceImpl implements UserService {
     public ResultDto<List<HogwartsTestUser>> getUserByName(String userName) {
         return ResultDto.success("成功",hogwartsTestUserMapper.getUserByName(userName));
     }
+
+    @Override
+    public ResultDto deleteUser(Integer userId) {
+        hogwartsTestUserMapper.deleteByIds(userId.toString());
+        return ResultDto.success("删除成功");
+    }
+
 }

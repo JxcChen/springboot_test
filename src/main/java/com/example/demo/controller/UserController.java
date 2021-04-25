@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.common.ResultDto;
 import com.example.demo.dto.AddUserDto;
+import com.example.demo.dto.LoginUserDto;
 import com.example.demo.dto.UpdateUserDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.entity.HogwartsTestUser;
@@ -60,7 +61,11 @@ public class UserController {
         return userService.save(addUserDto);
     }
 
-
+    /**
+     * 更新用户信息
+     * @param updateUserDto 需要更新的用户信息
+     * @return
+     */
     @PutMapping("updateUser")
     public ResultDto<HogwartsTestUser> updateUser(@RequestBody UpdateUserDto updateUserDto){
         if(updateUserDto.getId() == 0){
@@ -70,12 +75,36 @@ public class UserController {
         return userService.updateUser(updateUserDto);
     }
 
+    /**
+     * 根据用户名获取到用户信息 可进行模糊匹配
+     * @param userName 用户名
+     * @return 用户信息
+     */
     @GetMapping("getUser")
     public ResultDto<List<HogwartsTestUser>> getUserByName(@RequestParam(value = "userName") String userName){
         if (userName == null || userName.equals(""))
             return ResultDto.fail("用户名不能为空");
         log.info("根据名字查询用户 用户名：" + userName);
         return userService.getUserByName(userName);
+    }
+
+
+    @DeleteMapping("deleteUser")
+    public ResultDto deleteUserById(@RequestParam(value = "userId") Integer userId){
+        if(userId == 0){
+            return ResultDto.fail("请输入要删除的用户ID");
+        }
+        log.info("删除ID为 "+userId+"的用户信息");
+        return userService.deleteUser(userId);
+    }
+
+    @PostMapping("userLogin")
+    public ResultDto<HogwartsTestUser> userLogin(@RequestBody LoginUserDto loginUserDto){
+        if (loginUserDto.getUserName() == null || loginUserDto.getUserName().equals(""))
+            return ResultDto.fail("用户名不能为空");
+        if (loginUserDto.getPassword() == null || loginUserDto.getPassword().equals(""))
+            return ResultDto.fail("密码不能为空");
+        return userService.login(loginUserDto);
     }
 
 
