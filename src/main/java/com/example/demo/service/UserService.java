@@ -16,7 +16,6 @@ import java.util.List;
  */
 public interface UserService {
 
-
     String login(UserDto userDto);
 
     /**
