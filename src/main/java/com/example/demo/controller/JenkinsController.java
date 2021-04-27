@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class JenkinsController {
     private JenkinsService jenkinsService;
-    public ResultDto createJob(JenkinsParamDto jenkinsParamDto){
+    public ResultDto createJob(JenkinsParamDto jenkinsParamDto) throws Exception {
         log.info("在jenkins中新创建一个名为"+jenkinsParamDto.getJobName()+"的job");
         return jenkinsService.createJob(jenkinsParamDto);
     }

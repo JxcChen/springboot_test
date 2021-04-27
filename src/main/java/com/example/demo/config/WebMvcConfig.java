@@ -18,7 +18,7 @@ import java.util.List;
  * @date:2021/4/21 17:59
  * @Description: 拦截器配置文件
  */
-//@Configuration
+@Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Autowired
     private InterceptorDemo interceptorDemo;
@@ -27,8 +27,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     public void addInterceptors(InterceptorRegistry registry) {
         // addPathPatterns("/**") 表示拦截所有路劲请求
         // excludePathPatterns 以下路径不进行拦截
-        registry.addInterceptor(interceptorDemo).addPathPatterns("/**").excludePathPatterns("/spring/loginPost",
-                "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**","/error","/csrf");
+        registry.addInterceptor(interceptorDemo).addPathPatterns("/**").excludePathPatterns("/spring/userLogin","/spring/register");
     }
 
 
