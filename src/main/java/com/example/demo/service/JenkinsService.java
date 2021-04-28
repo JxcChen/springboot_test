@@ -2,6 +2,9 @@ package com.example.demo.service;
 
 import com.example.demo.common.ResultDto;
 import com.example.demo.dto.JenkinsParamDto;
+import com.example.demo.dto.TokenDto;
+import com.example.demo.dto.jenkins.AddJenkinsDto;
+import com.example.demo.entity.HogwartsTestJenkins;
 
 /**
  * @author: JJJJ
@@ -10,4 +13,6 @@ import com.example.demo.dto.JenkinsParamDto;
  */
 public interface JenkinsService {
     ResultDto createJob(JenkinsParamDto jenkinsParamDto) throws Exception;
+
+    ResultDto<HogwartsTestJenkins> save(TokenDto userInfo, AddJenkinsDto addJenkinsDto);
 }

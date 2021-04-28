@@ -1,22 +1,21 @@
 package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.demo.common.ResultDto;
-import com.example.demo.dto.AddUserDto;
-import com.example.demo.dto.LoginUserDto;
-import com.example.demo.dto.UpdateUserDto;
-import com.example.demo.dto.UserDto;
+import com.example.demo.common.*;
+import com.example.demo.dto.user.AddUserDto;
+import com.example.demo.dto.user.LoginUserDto;
+import com.example.demo.dto.user.UpdateUserDto;
+import com.example.demo.dto.user.UserDto;
 import com.example.demo.entity.HogwartsTestUser;
 import com.example.demo.service.UserService;
-import com.example.demo.common.ServiceException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -35,6 +34,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TokenDb tokenDb;
+
     // RequestMapping指定访问路径和请求方式 {userId}表示请求所需要的参数
     // @RequestMapping(value="login/{userId}",method = RequestMethod.GET)
     // GetMapping指定get请求方式 并设置访问路径
@@ -51,7 +53,8 @@ public class UserController {
      * @return 注册结果
      */
     @PostMapping("register")
-    public ResultDto<AddUserDto> register(@RequestBody AddUserDto addUserDto){
+    @ApiOperation(value = "注册接口")
+    public ResultDto<HogwartsTestUser> register(@RequestBody AddUserDto addUserDto){
         // 对用户名和密码进行非空判断
         if (addUserDto.getUserName()==null || addUserDto.getUserName().equals(""))
             return ResultDto.fail("用户名不能为空");
@@ -61,12 +64,48 @@ public class UserController {
         return userService.save(addUserDto);
     }
 
+
+    /**
+     * 登录接口
+     * @param loginUserDto
+     * @return
+     */
+    @PostMapping("userLogin")
+    @ApiOperation(value = "登录接口")
+    public ResultDto<Token> userLogin(@RequestBody LoginUserDto loginUserDto){
+        if (loginUserDto.getUserName() == null || loginUserDto.getUserName().equals(""))
+            return ResultDto.fail("用户名不能为空");
+        if (loginUserDto.getPassword() == null || loginUserDto.getPassword().equals(""))
+            return ResultDto.fail("密码不能为空");
+        return userService.login(loginUserDto);
+    }
+
+    /**
+     * 退出登录接口
+     * @param request http请求
+     * @return
+     */
+    @DeleteMapping("/signOut")
+    @ApiOperation(value = "退出登录接口")
+    public ResultDto signOut(HttpServletRequest request){
+        // 获取到用户token
+        String token = request.getHeader(UserConstants.LOGIN_TOKEN);
+        // 判断用户是否已经登录
+        boolean isLogin = tokenDb.isLogin(token);
+        if (!isLogin){
+            return ResultDto.fail("用户未登录");
+        }
+        tokenDb.removeTokenDto(token);
+        return ResultDto.success("退出成功");
+    }
+
     /**
      * 更新用户信息
      * @param updateUserDto 需要更新的用户信息
      * @return
      */
     @PutMapping("updateUser")
+    @ApiOperation(value = "更新用户数据接口")
     public ResultDto<HogwartsTestUser> updateUser(@RequestBody UpdateUserDto updateUserDto){
         if(updateUserDto.getId() == 0){
             return ResultDto.fail("必须传入用户ID");
@@ -98,14 +137,6 @@ public class UserController {
         return userService.deleteUser(userId);
     }
 
-    @PostMapping("userLogin")
-    public ResultDto<HogwartsTestUser> userLogin(@RequestBody LoginUserDto loginUserDto){
-        if (loginUserDto.getUserName() == null || loginUserDto.getUserName().equals(""))
-            return ResultDto.fail("用户名不能为空");
-        if (loginUserDto.getPassword() == null || loginUserDto.getPassword().equals(""))
-            return ResultDto.fail("密码不能为空");
-        return userService.login(loginUserDto);
-    }
 
 
     @GetMapping("getUserId")

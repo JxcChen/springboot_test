@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
     // 业务异常
     // @ExceptionHandler({ServiceException.class}) 指定只捕获业务异常
     @ExceptionHandler({ServiceException.class}) // 对异常进行统一处理 value指定捕获的异常类型
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    // @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)  // 在拦截器中 业务响应状态码已经设定成401 这里无需再设置响应码
     public ResultDto serviceExceptionHandler(ServiceException ex){
         log.error(ex.getMessage());
         return resultFormat(ex);
@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultDto  exception(Throwable throwable){
-        log.error("服务器异常"+ throwable);
+        log.error("服务器异常"+ throwable.getMessage());
         return resultFormat(throwable);
     }
 
@@ -47,11 +47,12 @@ public class GlobalExceptionHandler {
         log.error(ex.getMessage());
         ResultDto resultDto = ResultDto.newInstance();
         resultDto.setAsFail();
+        String tips = "系统繁忙，请稍后重试";
         if(ex instanceof  ServiceException){
             ServiceException serviceException = (ServiceException)ex;
             resultDto.setResultMsg(serviceException.getMessage());
         }else if (ex instanceof Exception){
-            resultDto.setResultMsg("服务器不可用" + ex.getMessage());
+            resultDto.setResultMsg("服务器不可用" + tips);
         }
         return resultDto;
     }

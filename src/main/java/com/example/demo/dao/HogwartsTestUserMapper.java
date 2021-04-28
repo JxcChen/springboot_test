@@ -1,7 +1,6 @@
 package com.example.demo.dao;
 
 import com.example.demo.common.MySqlExtensionMapper;
-import com.example.demo.dto.LoginUserDto;
 import com.example.demo.entity.HogwartsTestUser;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

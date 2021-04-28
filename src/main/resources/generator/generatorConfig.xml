@@ -131,12 +131,14 @@
             注意，table里面很多参数都是对javaModelGenerator，context等元素的默认属性的一个复写；
          -->
         <!-- schema:数据库名称 tableName:表名  domainObjectName: 生成实体类的名称 -->
+<!--
         <table schema="spring_test" tableName="hogwarts_test_user" domainObjectName="HogwartsTestUser" enableCountByExample="false"
             enableSelectByExample="false" enableUpdateByExample="false">
 
 
 
-            <!-- generatedKey用于生成生成主键的方法，
+
+        &lt;!&ndash; generatedKey用于生成生成主键的方法，
                 如果设置了该元素，MBG会在生成的<insert>元素中生成一条正确的<selectKey>元素，该元素可选
                 column:主键的列名；
                 sqlStatement：要生成的selectKey语句，有以下可选项：
@@ -151,13 +153,36 @@
                     SYBASE    :相当于selectKey的SQL为：SELECT @@IDENTITY
                     JDBC      :相当于在生成的insert元素上添加useGeneratedKeys="true"和keyProperty属性
             <generatedKey column="" sqlStatement=""/>
-             -->
-            <!-- 标识主键和自增属性 -->
+             &ndash;&gt;
+            &lt;!&ndash; 标识主键和自增属性 &ndash;&gt;
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+-->
 
+        <!--<table schema="spring_test" tableName="hogwarts_test_case" domainObjectName="HogwartsTestcase" enableCountByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            &lt;!&ndash; 标识主键和自增属性 &ndash;&gt;
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+            <columnOverride column="del_flag" javaType="Integer" jdbcType="TINYINT" />
+        </table>-->
 
+        <table schema="spring_test" tableName="hogwarts_test_jenkins" domainObjectName="HogwartsTestJenkins" enableCountByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
+        <!--<table schema="spring_test" tableName="hogwarts_test_task" domainObjectName="HogwartsTestTask" enableCountByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="task_type" javaType="Integer" jdbcType="TINYINT" />
+            <columnOverride column="status" javaType="Integer" jdbcType="TINYINT" />
+        </table>
+
+        <table schema="spring_test" tableName="hogwarts_test_task_case_rel" domainObjectName="HogwartsTestTaskCaseRel" enableCountByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
     </context>
 
 </generatorConfiguration>

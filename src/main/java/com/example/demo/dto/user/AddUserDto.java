@@ -1,29 +1,32 @@
-package com.example.demo.dto;
+package com.example.demo.dto.user;
 
 import com.example.demo.entity.BaseEntityNew;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.persistence.*;
+import java.util.Date;
+
 @Data
 @ApiModel(value = "新增用户")
-public class UpdateUserDto extends BaseEntityNew {
+public class AddUserDto extends BaseEntityNew {
     /**
      * 主键
      */
-    @ApiModelProperty(value = "用户ID",required = true,example = "1")
+    @ApiModelProperty(value = "用户ID",example = "1")
     private Integer id;
 
     /**
      * 用户名
      */
-    @ApiModelProperty(value = "用户名",example = "rose")
+    @ApiModelProperty(value = "用户名",required = true,example = "rose")
     private String userName;
 
     /**
      * 密码
      */
-    @ApiModelProperty(value = "密码")
+    @ApiModelProperty(value = "密码",required = true)
     private String password;
 
     /**

@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.common.ResultDto;
-import com.example.demo.dto.AddUserDto;
-import com.example.demo.dto.LoginUserDto;
-import com.example.demo.dto.UpdateUserDto;
-import com.example.demo.dto.UserDto;
+import com.example.demo.common.Token;
+import com.example.demo.dto.user.AddUserDto;
+import com.example.demo.dto.user.LoginUserDto;
+import com.example.demo.dto.user.UpdateUserDto;
+import com.example.demo.dto.user.UserDto;
 import com.example.demo.entity.HogwartsTestUser;
+
 
 import java.util.List;
 
@@ -23,14 +25,14 @@ public interface UserService {
      * @param loginUserDto 登录信息
      * @return 统一响应结果
      */
-    ResultDto<HogwartsTestUser> login(LoginUserDto loginUserDto);
+    ResultDto<Token> login(LoginUserDto loginUserDto);
 
     /**
      * 注册用户
      * @param addUserDto 要注册的用户信息
      * @return 统一响应对象
      */
-    ResultDto<AddUserDto> save(AddUserDto addUserDto);
+    ResultDto<HogwartsTestUser> save(AddUserDto addUserDto);
 
     /**
      * 更新用户信息
