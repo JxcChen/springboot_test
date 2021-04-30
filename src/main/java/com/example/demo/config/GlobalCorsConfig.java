@@ -19,7 +19,7 @@ public class GlobalCorsConfig {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true); // 允许cookies跨域
-        config.addAllowedOrigin("*"); // 允许向服务器请求的URI，*标识全部允许
+        config.addAllowedOriginPattern("*"); // 允许向服务器请求的URI，*标识全部允许.allowedOriginPatterns
         config.addAllowedHeader("*");// 允许访问的header * 表示全部允许
         config.setMaxAge(18000L);// 预检请求的缓存时间（秒），在这段时间内跨域请求不在预检
         config.addAllowedMethod("GET");

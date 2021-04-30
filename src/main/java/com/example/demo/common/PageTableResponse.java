@@ -12,6 +12,7 @@ import java.util.List;
  */
 @Data
 public class PageTableResponse<T> implements Serializable {
+    // 总页数
     private Integer recordsTotal;
     private List<T> data;
 }

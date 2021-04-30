@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -54,13 +55,15 @@ public class UserController {
      */
     @PostMapping("register")
     @ApiOperation(value = "注册接口")
-    public ResultDto<HogwartsTestUser> register(@RequestBody AddUserDto addUserDto){
+    public ResultDto<HogwartsTestUser> register(HttpServletResponse response, @RequestBody AddUserDto addUserDto){
         // 对用户名和密码进行非空判断
         if (addUserDto.getUserName()==null || addUserDto.getUserName().equals(""))
             return ResultDto.fail("用户名不能为空");
         if (addUserDto.getPassword()==null || addUserDto.getPassword().equals(""))
             return ResultDto.fail("密码不能为空");
         log.info("新用户注册 用户名："+addUserDto.getUserName() + " 密码："+addUserDto.getPassword());
+
+
         return userService.save(addUserDto);
     }
 
@@ -71,6 +74,7 @@ public class UserController {
      * @return
      */
     @PostMapping("userLogin")
+    @CrossOrigin
     @ApiOperation(value = "登录接口")
     public ResultDto<Token> userLogin(@RequestBody LoginUserDto loginUserDto){
         if (loginUserDto.getUserName() == null || loginUserDto.getUserName().equals(""))

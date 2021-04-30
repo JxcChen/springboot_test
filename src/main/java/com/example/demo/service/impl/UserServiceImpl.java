@@ -17,6 +17,7 @@ import com.example.demo.utils.MD5Util;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -45,6 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class) //遇到错误直接回滚
     public ResultDto<HogwartsTestUser> save(AddUserDto addUserDto) {
 
         // 1、先校验用户名唯一性
@@ -70,6 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResultDto<Token> login(LoginUserDto loginUserDto) {
         // 1、校验用户名是否存在
         HogwartsTestUser loginUser = hogwartsTestUserMapper.selectOneByUserName(loginUserDto.getUserName());
@@ -100,9 +103,9 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResultDto<HogwartsTestUser> updateUser(UpdateUserDto updateUserDto) {
         BeanUtils.copyProperties(updateUserDto, hogwartsTestUser);
-        hogwartsTestUser.setCreateTime(new Date());
         hogwartsTestUser.setUpdateTime(new Date());
         // 为空的字段不进行更新
         hogwartsTestUserMapper.updateByPrimaryKeySelective(hogwartsTestUser);

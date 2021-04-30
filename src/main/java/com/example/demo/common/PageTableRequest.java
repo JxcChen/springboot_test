@@ -1,5 +1,6 @@
 package com.example.demo.common;
 
+import com.example.demo.dto.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
