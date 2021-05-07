@@ -111,6 +111,9 @@ public class JenkinsController {
     @DeleteMapping("/delete")
     public ResultDto delete(HttpServletRequest request,@RequestParam Integer jenkinsId){
         log.info("删除id为："+jenkinsId+"的jenkins");
+        if (jenkinsId == null){
+            return ResultDto.fail("请选择你要删除的jenkins");
+        }
         TokenDto userInfo = tokenDb.getUserInfo(request.getHeader(UserConstants.LOGIN_TOKEN));
         return jenkinsService.delete(userInfo,jenkinsId);
     }

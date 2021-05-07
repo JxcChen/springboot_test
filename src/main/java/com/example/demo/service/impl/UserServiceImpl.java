@@ -51,8 +51,10 @@ public class UserServiceImpl implements UserService {
 
         // 1、先校验用户名唯一性
         hogwartsTestUser.setUserName(addUserDto.getUserName());
-        List<HogwartsTestUser> isExist = hogwartsTestUserMapper.select(hogwartsTestUser);
-        if (isExist != null && isExist.size() > 0){
+//        HogwartsTestUser isExist = hogwartsTestUserMapper.selectOneByUserName(addUserDto.getUserName());
+        HogwartsTestUser isExist = hogwartsTestUserMapper.selectOneByUserName(addUserDto.getUserName());
+
+        if (isExist != null){
             return ResultDto.fail("用户名已经存在");
         }
         // 用户名不存在的前提下再进行接下来的步骤
@@ -63,12 +65,12 @@ public class UserServiceImpl implements UserService {
         addUserDto.setPassword(newPassword);
         // 4、将传入的dto类 信息复制给实体类
         BeanUtils.copyProperties(addUserDto, this.hogwartsTestUser);
-        hogwartsTestUser.setCreateTime(new Date());
-        hogwartsTestUser.setUpdateTime(new Date());
+        this.hogwartsTestUser.setCreateTime(new Date());
+        this.hogwartsTestUser.setUpdateTime(new Date());
         // 5、使用hogwartsTestUserMapper插入数据
-        hogwartsTestUserMapper.insert(hogwartsTestUser);
-        System.out.println(JSONObject.toJSONString(hogwartsTestUser));
-        return ResultDto.success("注册成功", hogwartsTestUser);
+        hogwartsTestUserMapper.insert(this.hogwartsTestUser);
+        System.out.println(JSONObject.toJSONString(this.hogwartsTestUser));
+        return ResultDto.success("注册成功", this.hogwartsTestUser);
     }
 
     @Override
@@ -119,6 +121,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultDto deleteUser(Integer userId) {
+        HogwartsTestUser hogwartsTestUser = new HogwartsTestUser();
+        hogwartsTestUser.setId(userId);
+        HogwartsTestUser isExist = hogwartsTestUserMapper.selectOne(hogwartsTestUser);
+        if (isExist == null){
+            ResultDto.fail("请选择你要删除的用户");
+        }
         hogwartsTestUserMapper.deleteByIds(userId.toString());
         return ResultDto.success("删除成功");
     }

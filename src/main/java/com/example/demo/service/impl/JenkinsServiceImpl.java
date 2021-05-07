@@ -184,7 +184,7 @@ public class JenkinsServiceImpl implements JenkinsService {
             tokenDb.addUserInfo(userId,userInfo.getToken(),userInfo);
         }
 
-        System.out.println(tokenDb.getUserInfo(userInfo.getToken()).getDefaultJenkinsId());
+
         return ResultDto.success("删除成功");
     }
 
