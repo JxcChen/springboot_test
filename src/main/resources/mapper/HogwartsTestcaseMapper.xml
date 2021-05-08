@@ -14,4 +14,37 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="case_data" jdbcType="LONGVARCHAR" property="caseData" />
   </resultMap>
+
+  <select id="selectOneCaseByName" resultType="HogwartsTestcase">
+    select * from hogwarts_test_case where case_name = #{caseName} and id != #{caseId}
+  </select>
+
+
+  <!-- 计算用例数据总数 -->
+  <select id="countCaseNum" resultType="int">
+    select count(*)
+      from
+        hogwarts_test_case
+      where
+        create_user_id = #{param.userId}
+        <if test="param.caseName != null and param.caseName != ''">
+          and case_name like concat('%',#{param.caseName},'%')
+        </if>
+  </select>
+
+  <!-- 分页查询用例数据 -->
+  <select id="getCaseList" resultType="HogwartsTestcase">
+    select *
+      from
+        hogwarts_test_case
+      where
+        create_user_id = #{param.userId}
+    <if test="param.caseName != null and param.caseName != ''">
+      and case_name like concat('%',#{param.caseName},'%')
+    </if>
+          and
+        del_flag =1
+      order by id desc
+      limit #{pageNum},#{pageSize}
+  </select>
 </mapper>

@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value = "spring/jenkins")
-@Api(value = "jenkins api")
+@Api(tags = "Jenkins Api")
 @Slf4j
 public class JenkinsController {
     @Autowired

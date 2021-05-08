@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "spring") // 指定类全局访问路径
-@Api(tags = "SpringBoot Test API")
+@Api(tags = "User Api")
 @Slf4j
 public class UserController {
     @Value("${spring.result}")
