@@ -54,25 +54,7 @@ public class TestcaseServiceImpl implements TestcaseService {
         return ResultDto.success("添加成功",hogwartsTestcase);
     }
 
-    /**
-     * 根据用户id和用例id查询用例
-     * @param userID 用户id
-     * @param caseId 用例id
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public ResultDto<HogwartsTestcase> getCaseById(Integer userID, Integer caseId) {
-        HogwartsTestcase hogwartsTestcase = new HogwartsTestcase();
-        hogwartsTestcase.setCreateUserId(userID);
-        hogwartsTestcase.setId(caseId);
-        // 进行查询
-        HogwartsTestcase existCase = testcaseMapper.selectOne(hogwartsTestcase);
-        if (existCase == null)
-            return ResultDto.fail("该用例不存在");
-        if (existCase.getDelFlag() == 0)
-            return ResultDto.fail("该用例不存在或者已经被删除");
-        return ResultDto.success("成功",existCase);
-    }
+
 
     /**
      * 修改用例信息
@@ -155,5 +137,45 @@ public class TestcaseServiceImpl implements TestcaseService {
         pageTableResponse.setRecordsTotal(countCaseNum);
         pageTableResponse.setData(caseList);
         return ResultDto.success("查询成功",pageTableResponse);
+    }
+
+    /**
+     * 根据用户id和用例id查询用例
+     * @param userID 用户id
+     * @param caseId 用例id
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ResultDto<HogwartsTestcase> getCaseById(Integer userID, Integer caseId) {
+        HogwartsTestcase hogwartsTestcase = new HogwartsTestcase();
+        hogwartsTestcase.setCreateUserId(userID);
+        hogwartsTestcase.setId(caseId);
+        // 进行查询
+        HogwartsTestcase existCase = testcaseMapper.selectOne(hogwartsTestcase);
+        if (existCase == null)
+            return ResultDto.fail("该用例不存在");
+        if (existCase.getDelFlag() == 0)
+            return ResultDto.fail("该用例不存在或者已经被删除");
+        return ResultDto.success("成功",existCase);
+    }
+
+    /**
+     * 根据用户id和用例id查询用例数据  直接返回数据字符串
+     * @param userID 用户id
+     * @param caseId 用例id
+     * @return
+     */
+    @Override
+    public String getCaseDataById(Integer userID, Integer caseId) {
+        HogwartsTestcase hogwartsTestcase = new HogwartsTestcase();
+        hogwartsTestcase.setCreateUserId(userID);
+        hogwartsTestcase.setId(caseId);
+        // 进行查询
+        HogwartsTestcase existCase = testcaseMapper.selectOne(hogwartsTestcase);
+        if (existCase == null)
+            return "该用例不存在";
+        if (existCase.getDelFlag() == 0)
+            return "该用例不存在或者已经被删除";
+        return existCase.getCaseData();
     }
 }

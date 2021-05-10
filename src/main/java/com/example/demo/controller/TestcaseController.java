@@ -103,25 +103,6 @@ public class TestcaseController {
         return testcaseService.save(userInfo,addTestcaseDto);
     }
 
-    /**
-     * 通过测试用例ID查找用例
-     * @param request 请求
-     * @param caseId 用例id
-     * @return
-     */
-    @ApiOperation(value = "通过ID获取用例")
-    @GetMapping("/{caseId}")
-    public ResultDto<HogwartsTestcase> getCaseById(HttpServletRequest request, @PathVariable Integer caseId){
-        // 非空判断
-        if (caseId == null)
-            return ResultDto.fail("用例Id不能为空");
-        log.info("根据用户ID获取id为： " + caseId+"的用例信息");
-        // 获取用户id
-        String token = request.getHeader(UserConstants.LOGIN_TOKEN);
-        Integer userID = tokenDb.getUserInfo(token).getUserID();
-        // 调用service进行查询
-        return testcaseService.getCaseById(userID,caseId);
-    }
 
     @ApiOperation(value = "修改用例数据")
     @PutMapping("updateCase")
@@ -160,7 +141,7 @@ public class TestcaseController {
 
     @ApiOperation("根据用户ID分页查找用例列表")
     @GetMapping("getCaseList")
-    public ResultDto<PageTableResponse<HogwartsTestcase>> getCaseList(HttpServletRequest request,@RequestParam PageTableRequest<QueryTestcaseDto> pageTableRequest){
+    public ResultDto<PageTableResponse<HogwartsTestcase>> getCaseList(HttpServletRequest request,@RequestParam PageTableRequest<QueryTestcaseDto> pageTableRequest,String caseName){
         // 必要信息非空判断
         if (pageTableRequest == null)
             return ResultDto.fail("列表查询参数为空");
@@ -175,10 +156,51 @@ public class TestcaseController {
             param = new QueryTestcaseDto();
 
         param.setUserId(userID);
-//        if (caseName != null)
-//            param.setCaseName(caseName);
+        if (caseName != null)
+            param.setCaseName(caseName);
         pageTableRequest.setParam(param);
         // 调用service获取用例列表
         return testcaseService.getUserCaseList(pageTableRequest);
+    }
+
+    /**
+     * 通过测试用例ID查找用例  返回响应对象
+     * @param request 请求
+     * @param caseId 用例id
+     * @return
+     */
+    @ApiOperation(value = "通过ID获取用例")
+    @GetMapping("/{caseId}")
+    public ResultDto<HogwartsTestcase> getCaseById(HttpServletRequest request, @PathVariable Integer caseId){
+        // 非空判断
+        if (caseId == null)
+            return ResultDto.fail("用例Id不能为空");
+        log.info("根据用户ID获取id为： " + caseId+"的用例信息");
+        // 获取用户id
+        String token = request.getHeader(UserConstants.LOGIN_TOKEN);
+        Integer userID = tokenDb.getUserInfo(token).getUserID();
+        // 调用service进行查询
+        return testcaseService.getCaseById(userID,caseId);
+    }
+
+    /**
+     * 通过测试用例ID查找用例数据  返回用例数据字符串
+     * @param request 请求
+     * @param caseId 用例id
+     * @return
+     */
+    @ApiOperation(value = "通过ID获取用例")
+    @GetMapping("data/{caseId}")
+    public String getCaseDataById(HttpServletRequest request, @PathVariable Integer caseId){
+        // 非空判断
+        if (caseId == null)
+            return "用例Id不能为空";
+        log.info("根据用户ID获取id为： " + caseId+"的用例信息");
+        log.info("获取用例数据");
+        // 获取用户id
+        String token = request.getHeader(UserConstants.LOGIN_TOKEN);
+        Integer userID = tokenDb.getUserInfo(token).getUserID();
+        // 调用service进行查询
+        return testcaseService.getCaseDataById(userID,caseId);
     }
 }

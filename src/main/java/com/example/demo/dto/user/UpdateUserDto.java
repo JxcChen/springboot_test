@@ -1,5 +1,6 @@
 package com.example.demo.dto.user;
 
+import com.example.demo.dto.BaseDto;
 import com.example.demo.entity.BaseEntityNew;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,7 +8,7 @@ import lombok.Data;
 
 @Data
 @ApiModel(value = "新增用户")
-public class UpdateUserDto extends BaseEntityNew {
+public class UpdateUserDto extends BaseDto {
     /**
      * 主键
      */

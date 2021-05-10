@@ -108,6 +108,12 @@ public class JenkinsController {
 
     }
 
+    /**
+     * 根据jenkinsId删除jenkins
+     * @param request 请求
+     * @param jenkinsId jenkinsId
+     * @return
+     */
     @DeleteMapping("/delete")
     public ResultDto delete(HttpServletRequest request,@RequestParam Integer jenkinsId){
         log.info("删除id为："+jenkinsId+"的jenkins");

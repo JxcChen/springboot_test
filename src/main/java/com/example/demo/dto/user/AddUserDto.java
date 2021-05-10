@@ -1,5 +1,6 @@
 package com.example.demo.dto.user;
 
+import com.example.demo.dto.BaseDto;
 import com.example.demo.entity.BaseEntityNew;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,7 +11,7 @@ import java.util.Date;
 
 @Data
 @ApiModel(value = "新增用户")
-public class AddUserDto extends BaseEntityNew {
+public class AddUserDto extends BaseDto {
     /**
      * 主键
      */

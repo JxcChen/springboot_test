@@ -21,4 +21,6 @@ public interface TestcaseService {
     ResultDto deleteCase(Integer userID, Integer caseId);
 
     ResultDto<PageTableResponse<HogwartsTestcase>> getUserCaseList(PageTableRequest<QueryTestcaseDto> pageTableRequest);
+
+    String getCaseDataById(Integer userID, Integer caseId);
 }
