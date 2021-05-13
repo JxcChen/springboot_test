@@ -39,7 +39,7 @@ public class JenkinsServiceImpl implements JenkinsService {
 
     @Override
     public ResultDto createJob(JenkinsParamDto jenkinsParamDto) throws Exception {
-        JenkinsUtil.createJob(jenkinsParamDto);
+        JenkinsUtil.createOrUpdateJob(jenkinsParamDto);
         return ResultDto.success("构建成功");
     }
 

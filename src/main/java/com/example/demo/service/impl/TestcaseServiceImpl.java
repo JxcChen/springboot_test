@@ -121,7 +121,6 @@ public class TestcaseServiceImpl implements TestcaseService {
      * @return
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public ResultDto<PageTableResponse<HogwartsTestcase>> getUserCaseList(PageTableRequest<QueryTestcaseDto> pageTableRequest) {
         QueryTestcaseDto param = pageTableRequest.getParam();
         Integer pageNum = pageTableRequest.getPageNum();

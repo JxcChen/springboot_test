@@ -8,6 +8,7 @@ import com.example.demo.dto.jenkins.UpdateJenkinsDto;
 import com.example.demo.entity.HogwartsTestJenkins;
 import com.example.demo.service.JenkinsService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class JenkinsController {
 
 
     @PostMapping("/addJenkins")
+    @ApiOperation(value = "添加jenkins")
     public ResultDto<HogwartsTestJenkins> addJenkins(@RequestBody AddJenkinsDto addJenkinsDto, HttpServletRequest request) throws Exception {
         log.info("新增jenkins");
         // 先对必要信息进行非空判断
@@ -55,6 +57,7 @@ public class JenkinsController {
 
 
     @PutMapping("/update")
+    @ApiOperation(value = "更新jenkins")
     public ResultDto<HogwartsTestJenkins> updateJenkins(HttpServletRequest request,@RequestBody UpdateJenkinsDto updateJenkinsDto){
         // 校验必要参数
         if (updateJenkinsDto == null){
@@ -87,6 +90,7 @@ public class JenkinsController {
      * @return
      */
     @GetMapping("/list")
+    @ApiOperation(value = "获取jenkins列表")
     public ResultDto<PageTableResponse<HogwartsTestJenkins>> getJenkinsList(HttpServletRequest request, PageTableRequest<QueryJenkinsListDto> pageTableRequest){
         // 校验数据
         if(pageTableRequest == null){
@@ -115,6 +119,7 @@ public class JenkinsController {
      * @return
      */
     @DeleteMapping("/delete")
+    @ApiOperation(value = "删除jenkins")
     public ResultDto delete(HttpServletRequest request,@RequestParam Integer jenkinsId){
         log.info("删除id为："+jenkinsId+"的jenkins");
         if (jenkinsId == null){

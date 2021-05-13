@@ -18,4 +18,24 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="test_command" jdbcType="LONGVARCHAR" property="testCommand" />
   </resultMap>
+
+  <!-- 获取测试任务总数 -->
+  <select id="count" resultType="int">
+    select count(1) from hogwarts_test_task htt where htt.create_user_id = #{param.createUserId}
+
+    <if test="param.name != null and param.name != '' ">
+      and htt.name = #{params.name}
+    </if>
+
+  </select>
+  <!-- 分页获取测试任务列表 -->
+  <select id="list" resultType="HogwartsTestTask">
+    select * from hogwarts_test_task htt where htt.create_user_id = #{param.createUserId}
+
+    <if test="param.name != null and param.name != '' ">
+      and htt.name = #{param.name}
+    </if>
+    order by htt.update_time desc
+    limit #{pageNum}, #{pageSize}
+  </select>
 </mapper>
