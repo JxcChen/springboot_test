@@ -4,6 +4,7 @@ import com.example.demo.common.PageTableRequest;
 import com.example.demo.common.PageTableResponse;
 import com.example.demo.common.ResultDto;
 import com.example.demo.dto.TokenDto;
+import com.example.demo.dto.task.QueryCaseCountDto;
 import com.example.demo.dto.task.QueryHogwartsTestTaskListDto;
 import com.example.demo.dto.task.RequestInfoDto;
 import com.example.demo.dto.task.TestTaskDto;
@@ -30,4 +31,6 @@ public interface TestTaskService {
     ResultDto startTask(TokenDto userInfo, HogwartsTestTask hogwartsTestTask, RequestInfoDto requestInfoDto) throws IOException, Exception;
 
     ResultDto changeStatus(HogwartsTestTask hogwartsTestTask);
+
+    ResultDto<Integer> getCaseCount(QueryCaseCountDto queryCaseCountDto);
 }

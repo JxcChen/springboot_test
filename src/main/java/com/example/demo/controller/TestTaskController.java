@@ -37,6 +37,11 @@ public class TestTaskController {
     @Autowired
     TokenDb tokenDb;
 
+    /**
+     * 新增任务
+     * @param request 请求
+     * @param testTaskDto 新增任务传输对象
+     */
     @ApiOperation(value = "添加测试任务")
     @PostMapping("addTestTask")
     public ResultDto<HogwartsTestTask> addTestTask(HttpServletRequest request, @RequestBody TestTaskDto testTaskDto){
@@ -76,6 +81,11 @@ public class TestTaskController {
         return testTaskService.delete(userID,taskId);
     }
 
+    /**
+     *
+     * @param request 请求
+     * @param updateHogwartsTestTaskDto 更新任务数据传输对象
+     */
     @ApiOperation(value = "修改测试任务")
     @PutMapping("updateTestTask")
     public ResultDto<HogwartsTestTask> update(HttpServletRequest request, @RequestBody UpdateHogwartsTestTaskDto updateHogwartsTestTaskDto){
@@ -109,6 +119,11 @@ public class TestTaskController {
     }
 
 
+    /**
+     * 查询测试任务列表
+     * @param request 请求
+     * @param pageTableRequest 分页查询对象
+     */
     @ApiOperation(value = "列表查询")
     @GetMapping("/list")
     public ResultDto<PageTableResponse<HogwartsTestTask>> list(HttpServletRequest request, PageTableRequest<QueryHogwartsTestTaskListDto> pageTableRequest){
@@ -133,6 +148,11 @@ public class TestTaskController {
         return responseResultDto;
     }
 
+    /**
+     * 获取单个测试任务
+     * @param request 请求
+     * @param testTaskId 测试任务id
+     */
     @ApiOperation(value = "获取单个测试任务")
     @GetMapping("/{testTaskId}")
     public ResultDto<HogwartsTestTask> getTestTaskById(HttpServletRequest request,@PathVariable Integer testTaskId){
@@ -146,6 +166,12 @@ public class TestTaskController {
         return testTaskService.getTestTaskById(userID,testTaskId);
     }
 
+    /**
+     * 开始执行测试
+     * @param request 请求
+     * @param startTestTaskDto 开始执行测试数据传输对象
+     * @return
+     */
     @ApiOperation(value = "开始测试", notes = "开始测试-说明", httpMethod = "POST", response = ResultDto.class)
     @PostMapping("startTest")
     public ResultDto startTest(HttpServletRequest request, @RequestBody StartTestTaskDto startTestTaskDto){
@@ -182,6 +208,12 @@ public class TestTaskController {
 
     }
 
+    /**
+     * 修改测试任务状态
+     * @param request 请求
+     * @param updateTaskStatusDto 更新测试任务数据传输对象
+     * @return
+     */
     @ApiOperation(value = "修改测试状态", httpMethod = "POST", response = ResultDto.class)
     @PutMapping("changeStatus")
     public ResultDto changeStatus(HttpServletRequest request, @RequestBody UpdateTaskStatusDto updateTaskStatusDto){
@@ -208,6 +240,21 @@ public class TestTaskController {
         hogwartsTestTask.setBuildUrl(buildUrl);
         // 调用service进行状态修改
         return testTaskService.changeStatus(hogwartsTestTask);
+    }
+
+
+    @ApiOperation(value = "获取任务包含case的数量")
+    @GetMapping("getCaseCount")
+    public ResultDto<Integer> getCaseCount(HttpServletRequest request,@RequestParam Integer taskId){
+        if (taskId == null)
+            return ResultDto.fail("任务id不能为空");
+        // 获取当前登录用户userId
+        String token = request.getHeader(UserConstants.LOGIN_TOKEN);
+        Integer userID = tokenDb.getUserInfo(token).getUserID();
+        QueryCaseCountDto queryCaseCountDto = new QueryCaseCountDto();
+        queryCaseCountDto.setTaskId(taskId);
+        queryCaseCountDto.setCreateUserId(userID);
+        return testTaskService.getCaseCount(queryCaseCountDto);
     }
 
 }

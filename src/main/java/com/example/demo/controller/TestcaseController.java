@@ -141,7 +141,7 @@ public class TestcaseController {
 
     @ApiOperation("根据用户ID分页查找用例列表")
     @GetMapping("getCaseList")
-    public ResultDto<PageTableResponse<HogwartsTestcase>> getCaseList(HttpServletRequest request,@RequestParam PageTableRequest<QueryTestcaseDto> pageTableRequest,String caseName){
+    public ResultDto<PageTableResponse<HogwartsTestcase>> getCaseList(HttpServletRequest request, PageTableRequest<QueryTestcaseDto> pageTableRequest,String caseName){
         // 必要信息非空判断
         if (pageTableRequest == null)
             return ResultDto.fail("列表查询参数为空");

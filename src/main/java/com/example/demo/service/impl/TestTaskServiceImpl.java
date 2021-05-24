@@ -8,10 +8,7 @@ import com.example.demo.dao.HogwartsTestUserMapper;
 import com.example.demo.dao.HogwartsTestcaseMapper;
 import com.example.demo.dto.TokenDto;
 import com.example.demo.dto.jenkins.OperateJenkinsDto;
-import com.example.demo.dto.task.AddHogwartsTestTaskDto;
-import com.example.demo.dto.task.QueryHogwartsTestTaskListDto;
-import com.example.demo.dto.task.RequestInfoDto;
-import com.example.demo.dto.task.TestTaskDto;
+import com.example.demo.dto.task.*;
 import com.example.demo.entity.HogwartsTestJenkins;
 import com.example.demo.entity.HogwartsTestTask;
 import com.example.demo.entity.HogwartsTestUser;
@@ -281,6 +278,19 @@ public class TestTaskServiceImpl implements TestTaskService {
         }
         return ResultDto.success("修改成功");
 
+    }
+
+    @Override
+    public ResultDto<Integer> getCaseCount(QueryCaseCountDto queryCaseCountDto) {
+        HogwartsTestTask queryTask = new HogwartsTestTask();
+        queryTask.setId(queryCaseCountDto.getTaskId());
+        queryTask.setCreateUserId(queryCaseCountDto.getCreateUserId());
+        HogwartsTestTask hogwartsTestTask = testTaskMapper.selectOne(queryTask);
+        if (hogwartsTestTask == null)
+            return ResultDto.fail("查询的的任务不存在");
+        Integer count = testTaskMapper.selectCaseCountById(queryCaseCountDto);
+
+        return ResultDto.success("查询成功",count);
     }
 
 
