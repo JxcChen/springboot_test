@@ -90,6 +90,7 @@ public class TestTaskServiceImpl implements TestTaskService {
         hogwartsTestTask.setUpdateTime(new Date());
         hogwartsTestTask.setCaseCount(hogwartsTestcaseList.size());
 
+
         // 数据落库
         testTaskMapper.insert(hogwartsTestTask);
 
