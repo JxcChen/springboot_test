@@ -74,7 +74,6 @@ public class TestCommandUtils {
      * 获取修改任务状态命令
      * @param requestInfoDto 请求参数
      * @param resultTestTask 测试任务
-     * @return
      */
     public static StringBuilder getUpdateStatusCommand(RequestInfoDto requestInfoDto, HogwartsTestTask resultTestTask) {
 
@@ -84,7 +83,7 @@ public class TestCommandUtils {
         // 拼接目的路径
         updateStatusCommand.append("\""+requestInfoDto.getBaseUrl()+"/spring/testTask/changeStatus\" ");
         // 拼接需要的请求头
-        updateStatusCommand.append("-H \"Content-Type : application/json\"").append(" -H \"token : "+requestInfoDto.getToken()+"\"");
+        updateStatusCommand.append("-H \"Content-Type:application/json\"").append(" -H \"token:"+requestInfoDto.getToken()+"\"");
         // 组装json格式参数
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("taskId",resultTestTask.getId());
@@ -92,9 +91,11 @@ public class TestCommandUtils {
         // 构建路径会已参数形式传给jenkins
         jsonObject.put("buildUrl","${BUILD_URL}");
         // 将参数进行拼接  必须以json格式
-        updateStatusCommand.append(" -d '"+jsonObject.toJSONString()+"' ");
+        updateStatusCommand.append(" -d '" +jsonObject.toJSONString()+ "' ");
+        System.out.println(updateStatusCommand);
         return updateStatusCommand;
     }
+
 
     /**
      * 组装文件形式curl命令

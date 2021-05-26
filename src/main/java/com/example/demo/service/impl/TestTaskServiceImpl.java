@@ -270,7 +270,7 @@ public class TestTaskServiceImpl implements TestTaskService {
         // 查看已有任务状态 若已经是测试完成则不需要修改
         if (resultTask.getStatus().equals(Constants.STATUS_THREE))
             return ResultDto.fail("任务已执行完成无需在改变状态");
-        // 查看需要修改的状态  只要3的状态才需要进行修改
+        // 查看需要修改的状态  只要2的状态才需要进行修改
         if (hogwartsTestTask.getStatus().equals(Constants.STATUS_THREE)){
             resultTask.setStatus(Constants.STATUS_THREE);
             resultTask.setBuildUrl(hogwartsTestTask.getBuildUrl());
