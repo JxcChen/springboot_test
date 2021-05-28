@@ -48,7 +48,7 @@ public class TestcaseServiceImpl implements TestcaseService {
         // 设置创建和修改时间时间
         hogwartsTestcase.setCreateTime(new Date());
         hogwartsTestcase.setUpdateTime(new Date());
-        hogwartsTestcase.setDelFlag(0);
+        hogwartsTestcase.setDelFlag(Constants.DEL_FLAG_ONE);
         // 3、将数据存入数据库
         testcaseMapper.insert(hogwartsTestcase);
         return ResultDto.success("添加成功",hogwartsTestcase);
@@ -86,7 +86,7 @@ public class TestcaseServiceImpl implements TestcaseService {
         hogwartsTestcase.setCreateTime(existCase.getCreateTime());
         hogwartsTestcase.setUpdateTime(new Date());
         // 4 进行数据库修改
-        testcaseMapper.updateByPrimaryKey(hogwartsTestcase);
+        testcaseMapper.updateByPrimaryKeySelective(hogwartsTestcase);
         return ResultDto.success("修改成功",hogwartsTestcase);
     }
 

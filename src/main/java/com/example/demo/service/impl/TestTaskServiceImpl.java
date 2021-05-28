@@ -282,14 +282,27 @@ public class TestTaskServiceImpl implements TestTaskService {
     }
 
     @Override
-    public ResultDto<Integer> getCaseCount(QueryCaseCountDto queryCaseCountDto) {
+    public ResultDto<Integer> getCaseCount(QueryCaseCountOrStatusDto queryCaseCountOrStatusDto) {
         HogwartsTestTask queryTask = new HogwartsTestTask();
-        queryTask.setId(queryCaseCountDto.getTaskId());
-        queryTask.setCreateUserId(queryCaseCountDto.getCreateUserId());
+        queryTask.setId(queryCaseCountOrStatusDto.getTaskId());
+        queryTask.setCreateUserId(queryCaseCountOrStatusDto.getCreateUserId());
         HogwartsTestTask hogwartsTestTask = testTaskMapper.selectOne(queryTask);
         if (hogwartsTestTask == null)
             return ResultDto.fail("查询的的任务不存在");
-        Integer count = testTaskMapper.selectCaseCountById(queryCaseCountDto);
+        Integer count = testTaskMapper.selectCaseCountById(queryCaseCountOrStatusDto);
+
+        return ResultDto.success("查询成功",count);
+    }
+
+    @Override
+    public ResultDto<Integer> getTaskStatus(QueryCaseCountOrStatusDto queryTaskStatusDto) {
+        HogwartsTestTask queryTask = new HogwartsTestTask();
+        queryTask.setId(queryTaskStatusDto.getTaskId());
+        queryTask.setCreateUserId(queryTaskStatusDto.getCreateUserId());
+        HogwartsTestTask hogwartsTestTask = testTaskMapper.selectOne(queryTask);
+        if (hogwartsTestTask == null)
+            return ResultDto.fail("查询的的任务不存在");
+        Integer count = testTaskMapper.selectTaskStatusById(queryTaskStatusDto);
 
         return ResultDto.success("查询成功",count);
     }

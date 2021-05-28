@@ -250,10 +250,24 @@ public class TestTaskController {
         // 获取当前登录用户userId
         String token = request.getHeader(UserConstants.LOGIN_TOKEN);
         Integer userID = tokenDb.getUserInfo(token).getUserID();
-        QueryCaseCountDto queryCaseCountDto = new QueryCaseCountDto();
+        QueryCaseCountOrStatusDto queryCaseCountDto = new QueryCaseCountOrStatusDto();
         queryCaseCountDto.setTaskId(taskId);
         queryCaseCountDto.setCreateUserId(userID);
         return testTaskService.getCaseCount(queryCaseCountDto);
+    }
+
+    @ApiOperation(value = "获取任务状态")
+    @GetMapping("getTaskStatus")
+    public ResultDto<Integer> getTaskStatus(HttpServletRequest request,@RequestParam Integer taskId){
+        if (taskId == null)
+            return ResultDto.fail("任务id不能为空");
+        // 获取当前登录用户userId
+        String token = request.getHeader(UserConstants.LOGIN_TOKEN);
+        Integer userID = tokenDb.getUserInfo(token).getUserID();
+        QueryCaseCountOrStatusDto queryStatusDto = new QueryCaseCountOrStatusDto();
+        queryStatusDto.setTaskId(taskId);
+        queryStatusDto.setCreateUserId(userID);
+        return testTaskService.getTaskStatus(queryStatusDto);
     }
 
 }

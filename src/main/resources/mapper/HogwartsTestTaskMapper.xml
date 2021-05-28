@@ -42,4 +42,8 @@
   <select id="selectCaseCountById" resultType="int">
     select case_count from hogwarts_test_task where create_user_id = #{param.createUserId} and id = #{param.taskId}
   </select>
+
+  <select id="selectTaskStatusById" resultType="int">
+    select status from hogwarts_test_task where create_user_id = #{param.createUserId} and id = #{param.taskId}
+  </select>
 </mapper>

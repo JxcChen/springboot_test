@@ -8,7 +8,7 @@ import lombok.Data;
  * @Description: TODO
  */
 @Data
-public class QueryCaseCountDto {
+public class QueryCaseCountOrStatusDto {
 
     private Integer createUserId;
 
